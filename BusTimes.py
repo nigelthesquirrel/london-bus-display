@@ -20,14 +20,8 @@ def refresh():
 
     if response.status_code == 200:
 
-        text = response.text
-
-        items = text.split(os.linesep)
-
-        stop_only_list = [k for k in items if "[4" not in k]  # strip header
-
-        structured = sorted([string_to_tuple(s) for s in stop_only_list], key=lambda i: i[2])
-        structured = structured[:line_count]
+        stop_only_list = [k for k in response.text.split(os.linesep) if "[4" not in k]  # strip header which has [4
+        structured = sorted([string_to_tuple(s) for s in stop_only_list], key=lambda i: i[2])[:line_count]
 
         for lbl_line in lbl_lines:
             lbl_index, lbl_bus_no, lbl_bus_name, lbl_when = lbl_line
@@ -56,7 +50,7 @@ def refresh():
         for lbl_line in lbl_lines:
             lbl_line['text'] = "Error"
 
-    window.after(5000, lambda: refresh())
+    window.after(10000, lambda: refresh())
 
 
 def tuple_to_description(bus_tuple, item_no):
@@ -81,11 +75,8 @@ def string_to_tuple(stop_string):
     where = where[1:]
 
     when = int(when)
-
     now = datetime.datetime.now(datetime.UTC)
-
     bus_ts = datetime.datetime.fromtimestamp(when / 1000, datetime.UTC)
-
     duration = bus_ts - now
     duration_in_s = duration.total_seconds()
 
