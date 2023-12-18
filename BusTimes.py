@@ -16,19 +16,14 @@ lbl_lines = []
 stop_id = 'BP2236'  # church road towards Bromley
 # stop_id = '37294'   #Bromley South Station North
 # stop_id = '40104'   #Bromley South Station South
-test = (f'[4,"1.0",1702933330250]{os.linesep}[1,"358","Orpington Station",1702934355000]{os.linesep}[1,"367",'
-        f'"Bromley North",1702934805000]{os.linesep}[1,"358","Orpington Station",1702935044000]')
 
 def refresh():
     response = requests.get(f"https://countdown.api.tfl.gov.uk/interfaces/ura/instant_V1?ReturnList=LineName,"
                             f"DestinationName,EstimatedTime,&StopId={stop_id}")
 
-
-
     if response.status_code == 200:
 
         text = response.text
-        text = test
 
         items = text.split(os.linesep)
 
