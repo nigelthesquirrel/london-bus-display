@@ -29,3 +29,6 @@ Knowing the buses and where they are going in the above call helps with that!
 I'd also recommend cross-referencing the times displayed with the (free) official TFL app (or other similar apps)  as a check!
 
 Note that there are other APIs available to help you figure out your local bus stop in a more elegant way!
+
+When/If I get a chance I may rewrite this so the display can just be a web-page so you could full-screen a browser anywhere to use
+Maybe able to do this in just a single html/javascript file (which could either be hosted or opened locally)
