@@ -3,7 +3,7 @@
 
 
 # london-bus-display
-Some simple Python code to display a realistic looking bus countdown display sourcing real dataa on a raspberry pi (will work on any Python supported OS with tkinter)
+Some simple Python code to display a realistic looking bus countdown display sourcing real data from TFL(Transport for London) on a raspberry pi (will work on any Python supported OS with tkinter)
 I have an old PiTop that I am going to run it on
 Plan is to install a quick booting OS and run straight into fulls screen mode in the init
 Will then shut down the PI after 20 minutes
