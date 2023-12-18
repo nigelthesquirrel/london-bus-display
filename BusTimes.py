@@ -6,16 +6,13 @@ import datetime
 
 window = tk.Tk()
 window['bg'] = "black"
-# window.attributes("-fullscreen", True)
+window.attributes("-fullscreen", True)
 frm_mainframe = tk.Frame(background="black")
-label_font = font.Font(size=70, family="LED Counter 7")
 
 line_count = 5
 lbl_lines = []
+stop_id = ''
 
-stop_id = 'BP2236'  # church road towards Bromley
-# stop_id = '37294'   #Bromley South Station North
-# stop_id = '40104'   #Bromley South Station South
 
 def refresh():
     response = requests.get(f"https://countdown.api.tfl.gov.uk/interfaces/ura/instant_V1?ReturnList=LineName,"
@@ -55,7 +52,6 @@ def refresh():
 
             line_no = line_no + 1
 
-
     else:
         for lbl_line in lbl_lines:
             lbl_line['text'] = "Error"
@@ -87,6 +83,7 @@ def string_to_tuple(stop_string):
     when = int(when)
 
     now = datetime.datetime.now(datetime.UTC)
+
     bus_ts = datetime.datetime.fromtimestamp(when / 1000, datetime.UTC)
 
     duration = bus_ts - now
@@ -95,11 +92,23 @@ def string_to_tuple(stop_string):
     return bus_number, where, int(divmod(duration_in_s, 60)[0])
 
 
-def do_stuff():
+def setup():
+    with open("config") as f:
+        read_lines = f.readlines()
+        l = [line.split("#")[0].rstrip().split("=") for line in read_lines if
+             not line.startswith("#") and not line.isspace()]
+        d = {key.strip(): value.strip() for key, value in l}
+
     frm_mainframe.pack()
+    label_font = font.Font(size=int(d['font_size']), family=f"{d['font']}")
+
+    global line_count
+    line_count = int(d['line_count'])
+    global stop_id
+    stop_id = d['stop_id']
 
     for i in range(0, line_count):
-        lbl_item = tk.Label(master=frm_mainframe, text="1", bg="black", fg="orange",
+        lbl_item = tk.Label(master=frm_mainframe, text="", bg="black", fg="orange",
                             font=label_font, justify="left", anchor="w", width=2)
         lbl_item.grid(row=i + 1, column=1)
 
@@ -124,6 +133,6 @@ def do_stuff():
 
 if __name__ == '__main__':
     def main():
-        do_stuff()
+        setup()
 
 main()

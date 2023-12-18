@@ -1,0 +1,7 @@
+font=LED Counter 7
+font_size=70
+line_count=5
+
+# stop_id=37294   #Bromley South Station North
+#stop_id=40104   #Bromley South Station South
+stop_id=BP2236  #Church Road Towards Bromley
