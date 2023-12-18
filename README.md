@@ -1,3 +1,6 @@
+
+![image](https://github.com/nigelthesquirrel/london-bus-display/assets/65233876/095516d7-cf06-4b65-a480-c7dac812b7a9)
+
 # london-bus-display
 Some simple Python code to display a realistic looking bus countdown display on a raspberry pi (will work on any Python supported OS with tkinter)
 I have an old PiTop that I am going to run it on
