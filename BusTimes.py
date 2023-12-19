@@ -1,4 +1,3 @@
-import os
 import tkinter as tk
 from tkinter import font
 import requests
@@ -20,7 +19,7 @@ def refresh():
 
     if response.status_code == 200:
 
-        stop_only_list = [k for k in response.text.split(os.linesep) if "[4" not in k]  # strip header which has [4
+        stop_only_list = [k for k in response.text.split("\r\n") if "[4" not in k]  # strip header which has [4
         structured = sorted([string_to_tuple(s) for s in stop_only_list], key=lambda i: i[2])[:line_count]
 
         for lbl_line in lbl_lines:
