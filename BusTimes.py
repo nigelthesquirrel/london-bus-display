@@ -24,10 +24,9 @@ def refresh():
 
         for lbl_line in lbl_lines:
             lbl_index, lbl_bus_no, lbl_bus_name, lbl_when = lbl_line
-            lbl_index['text'] = ""
-            lbl_bus_no['text'] = ""
-            lbl_bus_name['text'] = ""
-            lbl_when['text'] = ""
+
+            for lbl in (lbl_index, lbl_bus_no, lbl_bus_name, lbl_when):
+                lbl['text'] = ""
 
         line_no = 0
         for lbl_line in lbl_lines:
