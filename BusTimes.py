@@ -36,12 +36,8 @@ def refresh():
             if line_no >= len(structured):
                 break
 
-            item_text, bus_no_text, where_text, when_text = tuple_to_description(structured[line_no], line_no)
-
-            lbl_index['text'] = item_text
-            lbl_bus_no['text'] = bus_no_text
-            lbl_bus_name['text'] = where_text
-            lbl_when['text'] = when_text
+            lbl_index['text'], lbl_bus_no['text'], lbl_bus_name['text'], lbl_when['text'] = tuple_to_description(
+                structured[line_no], line_no)
 
             line_no = line_no + 1
 
