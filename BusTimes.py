@@ -93,6 +93,8 @@ def setup():
     global stop_id
     stop_id = config['stop_id']
 
+    label_font = font.Font(size=int(config['font_size']), family=f"{config['font']}")
+
     for i in range(0, line_count):
         lbl_item = tk.Label(master=frm_mainframe, text="", bg="black", fg="orange",
                             font=label_font, justify="left", anchor="w", width=2)
