@@ -71,7 +71,7 @@ def string_to_tuple(stop_string):
 
     when = int(when)
     now = datetime.datetime.utcnow()
-    bus_ts = datetime.datetime.fromtimestamp(when / 1000, datetime.UTC)
+    bus_ts = datetime.datetime.utcfromtimestamp(when / 1000)
     duration = bus_ts - now
     duration_in_s = duration.total_seconds()
 
