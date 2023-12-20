@@ -11,6 +11,7 @@ frm_mainframe = tk.Frame(background="black")
 line_count = 5
 lbl_lines = []
 stop_id = ''
+config = {}
 
 
 def refresh():
@@ -69,7 +70,7 @@ def string_to_tuple(stop_string):
     where = where[1:]
 
     when = int(when)
-    now = datetime.datetime.now(datetime.UTC)
+    now = datetime.datetime.utcnow()
     bus_ts = datetime.datetime.fromtimestamp(when / 1000, datetime.UTC)
     duration = bus_ts - now
     duration_in_s = duration.total_seconds()
@@ -78,19 +79,19 @@ def string_to_tuple(stop_string):
 
 
 def setup():
+    global config
     with open("config") as f:
         read_lines = f.readlines()
         l = [line.split("#")[0].rstrip().split("=") for line in read_lines if
              not line.startswith("#") and not line.isspace()]
-        d = {key.strip(): value.strip() for key, value in l}
+        config = {key.strip(): value.strip() for key, value in l}
 
     frm_mainframe.pack()
-    label_font = font.Font(size=int(d['font_size']), family=f"{d['font']}")
 
     global line_count
-    line_count = int(d['line_count'])
+    line_count = int(config['line_count'])
     global stop_id
-    stop_id = d['stop_id']
+    stop_id = config['stop_id']
 
     for i in range(0, line_count):
         lbl_item = tk.Label(master=frm_mainframe, text="", bg="black", fg="orange",
@@ -114,6 +115,14 @@ def setup():
 
     refresh()
     window.mainloop()
+
+
+def create_label(width, row, column):
+    label_font = font.Font(size=int(config['font_size']), family=f"{config['font']}")
+    lbl = tk.Label(master=frm_mainframe, text="", bg="black", fg="orange",
+                   font=label_font, justify="left", anchor="w", width=width)
+    lbl.grid(row=row, column=column)
+    return lbl
 
 
 if __name__ == '__main__':
