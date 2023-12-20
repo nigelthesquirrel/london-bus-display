@@ -23,21 +23,16 @@ def refresh():
         stop_only_list = [k for k in response.text.split("\r\n") if "[4" not in k]  # strip header which has [4
         structured = sorted([string_to_tuple(s) for s in stop_only_list], key=lambda i: i[2])[:line_count]
 
-        for lbl_line in lbl_lines:
-            lbl_index, lbl_bus_no, lbl_bus_name, lbl_when = lbl_line
-
-            for lbl in (lbl_index, lbl_bus_no, lbl_bus_name, lbl_when):
-                lbl['text'] = ""
-
         line_no = 0
         for lbl_line in lbl_lines:
             lbl_index, lbl_bus_no, lbl_bus_name, lbl_when = lbl_line
 
             if line_no >= len(structured):
-                break
-
-            lbl_index['text'], lbl_bus_no['text'], lbl_bus_name['text'], lbl_when['text'] = tuple_to_description(
-                structured[line_no], line_no)
+                for lbl in (lbl_index, lbl_bus_no, lbl_bus_name, lbl_when):
+                    lbl['text'] = ""
+            else:
+                lbl_index['text'], lbl_bus_no['text'], lbl_bus_name['text'], lbl_when['text'] = tuple_to_description(
+                    structured[line_no], line_no)
 
             line_no = line_no + 1
 
@@ -82,9 +77,9 @@ def setup():
     global config
     with open("config") as f:
         read_lines = f.readlines()
-        l = [line.split("#")[0].rstrip().split("=") for line in read_lines if
-             not line.startswith("#") and not line.isspace()]
-        config = {key.strip(): value.strip() for key, value in l}
+        entry = [line.split("#")[0].rstrip().split("=") for line in read_lines if
+                 not line.startswith("#") and not line.isspace()]
+        config = {key.strip(): value.strip() for key, value in entry}
 
     frm_mainframe.pack()
 
@@ -93,27 +88,12 @@ def setup():
     global stop_id
     stop_id = config['stop_id']
 
-    label_font = font.Font(size=int(config['font_size']), family=f"{config['font']}")
-
-    for i in range(0, line_count):
-        lbl_item = tk.Label(master=frm_mainframe, text="", bg="black", fg="orange",
-                            font=label_font, justify="left", anchor="w", width=2)
-        lbl_item.grid(row=i + 1, column=1)
-
-        lbl_bus_number = tk.Label(master=frm_mainframe, text="", bg="black", fg="orange",
-                                  font=label_font, justify="left", anchor="w", width=4)
-        lbl_bus_number.grid(row=i + 1, column=2)
-
-        lbl_bus_name = tk.Label(master=frm_mainframe, text="", bg="black", fg="orange",
-                                font=label_font, justify="left", anchor="w", width=20)
-        lbl_bus_name.grid(row=i + 1, column=3)
-
-        lbl_bus_when = tk.Label(master=frm_mainframe, text="", bg="black", fg="orange",
-                                font=label_font, justify="left", anchor="w", width=5)
-
-        lbl_bus_when.grid(row=i + 1, column=4)
-
-        lbl_lines.append((lbl_item, lbl_bus_number, lbl_bus_name, lbl_bus_when))
+    for i in range(1, line_count + 1):
+        lbl_index = create_label(width=2, row=i, column=1)
+        lbl_bus_number = create_label(width=4, row=i, column=2)
+        lbl_bus_name = create_label(width=20, row=i, column=3)
+        lbl_bus_when = create_label(width=5, row=i, column=4)
+        lbl_lines.append((lbl_index, lbl_bus_number, lbl_bus_name, lbl_bus_when))
 
     refresh()
     window.mainloop()
