@@ -88,12 +88,9 @@ def setup():
     global stop_id
     stop_id = config['stop_id']
 
-    for i in range(1, line_count + 1):
-        lbl_index = create_label(width=2, row=i, column=1)
-        lbl_bus_number = create_label(width=4, row=i, column=2)
-        lbl_bus_name = create_label(width=20, row=i, column=3)
-        lbl_bus_when = create_label(width=5, row=i, column=4)
-        lbl_lines.append((lbl_index, lbl_bus_number, lbl_bus_name, lbl_bus_when))
+    for row in range(1, line_count + 1):
+        lbl_lines.append(tuple(
+            [create_label(width=width, column=column, row=row) for width, column in [(2, 1), (4, 2), (20, 3), (5, 4)]]))
 
     refresh()
     window.mainloop()
